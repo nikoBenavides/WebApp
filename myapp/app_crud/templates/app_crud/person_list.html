@@ -1,0 +1,44 @@
+
+{% extends "app_crud/base.html" %}
+
+
+{% block content %}
+<table class="table table-borderless">
+    <thead class="border-bottom font-weight-bold">
+        <tr>
+            <td>Nombre</td>
+            <td>Apellido</td>
+            <td>Teléfono</td>
+            <td>Código Personal</td>
+            <td>Posición</td>
+            <td>
+                <a href="{% url 'person_insert' %}" class="btn btn-outline-success">
+                    <i class="fas fa-plus"></i> Nuevo Registro
+                </a>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for person in person_list %}
+            <tr>
+                <td>{{person.name}}</td>
+                <td>{{person.lastname}}</td>
+                <td>{{person.phone}}</td>
+                <td>{{person.idCode}}</td>
+                <td>{{person.position}}</td>
+                <td>
+                    <a href="{% url 'person_update' person.id %}" class="btn text-secondary px-0">
+                        <i class="far fa-edit"></i>
+                    </a>
+                     <form action="{% url 'person_delete' person.id %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">
+                            <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}
