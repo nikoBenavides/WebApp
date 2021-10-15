@@ -9,7 +9,8 @@ urlpatterns = [
     path('delete/<int:id>/', views.person_delete , name= 'person_delete'),   #Delete info
     path('registerUser/', views.registerUser, name='registerUser'),
     path('loginUser/', views.loginUser, name='loginUser'),
-    path('logout/', views.logoutUser, name='logoutUser')
+    path('logout/', views.logoutUser, name='logoutUser'),
+    path('', views.person_form, name='Home')
     
 
 ] 
