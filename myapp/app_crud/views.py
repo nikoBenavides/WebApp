@@ -5,6 +5,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from .decorators import unauthenticated_user, allowed_users
 
 
 # Create your views here.
@@ -16,11 +17,8 @@ def person_list(request):  # GET
     context = {'person_list': Person.objects.all()}
     return render(request, "app_crud/person_list.html", context)
 
-
+@unauthenticated_user
 def registerUser(request):
-    if request.user.is_authenticated:
-        return redirect('/person')
-    else:
         form = CreateUserForm()
         if request.method == 'POST':
             form = CreateUserForm(request.POST)
@@ -33,11 +31,8 @@ def registerUser(request):
         context = {'form': form}
         return render(request, 'app_crud/registerUser.html', context)
 
-
+@unauthenticated_user
 def loginUser(request):
-    if request.user.is_authenticated:
-        return redirect('/person')
-    else:
         if request.method == 'POST':
             username = request.POST.get('username')
             password = request.POST.get('password')
@@ -58,6 +53,7 @@ def logoutUser(request):
 
 
 @login_required(login_url='/loginUser')
+@allowed_users(allowed_roles=['admin'])
 def person_form(request, id=0):
     if request.method == "GET":
         if id == 0:
