@@ -4,8 +4,9 @@ from .models import Person
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import  Group
 from django.contrib.auth.decorators import login_required
-from .decorators import unauthenticated_user, allowed_users
+from .decorators import unauthenticated_user, allowed_users, admin_only
 
 
 # Create your views here.
@@ -13,6 +14,7 @@ from .decorators import unauthenticated_user, allowed_users
 
 
 @login_required(login_url='/loginUser')
+@admin_only
 def person_list(request):  # GET
     context = {'person_list': Person.objects.all()}
     return render(request, "app_crud/person_list.html", context)
@@ -23,10 +25,14 @@ def registerUser(request):
         if request.method == 'POST':
             form = CreateUserForm(request.POST)
             if form.is_valid():
-                form.save()
-                user = form.cleaned_data.get('username')
+                user= form.save()
+                username = form.cleaned_data.get('username')
+
+                group=Group.objects.get(name='employee')
+                user.groups.add(group)
+
                 messages.success(
-                    request, 'Se ha creado el nuevo usuario ' + user)
+                    request, 'Se ha creado el nuevo usuario ' + username)
                 return redirect('/loginUser')
         context = {'form': form}
         return render(request, 'app_crud/registerUser.html', context)
@@ -53,6 +59,7 @@ def logoutUser(request):
 
 
 @login_required(login_url='/loginUser')
+@admin_only
 @allowed_users(allowed_roles=['admin'])
 def person_form(request, id=0):
     if request.method == "GET":
@@ -74,6 +81,7 @@ def person_form(request, id=0):
 
 
 @login_required(login_url='/loginUser')
+@allowed_users(allowed_roles=['admin'])
 def person_delete(request, id):
     person = Person.objects.get(pk=id)
     person.delete()
