@@ -82,3 +82,7 @@ def person_delete(request, id):
     person = Person.objects.get(pk=id)
     person.delete()
     return redirect('/list')
+
+def userPage(request):
+    context = {}
+    return render(request, 'app_crud/user.html', context)
