@@ -20,5 +20,9 @@ class Person(models.Model):
     phone= models.CharField(max_length=10)
     position = models.ForeignKey(Position, on_delete=models.CASCADE)
 
-
+class Activity(models.Model):
+    activity_name = models.CharField(max_length=100)
+    description=models.CharField(max_length=100)
+    urgency= models.CharField(max_length=20)
+   
     
