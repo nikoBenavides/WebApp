@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
-from .forms import PersonForm, CreateUserForm
-from .models import Person
+from .forms import ActivtyForm, PersonForm, CreateUserForm
+from .models import Activity, Person
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -16,8 +16,16 @@ from .decorators import unauthenticated_user, allowed_users, admin_only
 @login_required(login_url='/loginUser')
 @admin_only
 def person_list(request):  # GET
+    
     context = {'person_list': Person.objects.all()}
     return render(request, "app_crud/person_list.html", context)
+
+def activity_list(request):  # GET
+
+    context = {'activity_list': Activity.objects.all()}
+    return render(request, "app_crud/activity_list.html", context)
+
+
 
 @unauthenticated_user
 def registerUser(request):
@@ -79,6 +87,25 @@ def person_form(request, id=0):
             form.save()
         return redirect('/list')
 
+def activity_form(request, id=0):
+    if request.method == "GET":
+        if id == 0:
+            form = ActivtyForm()
+        else:
+            activity = Activity.objects.get(pk=id)
+            form = ActivtyForm(instance=activity)
+        return render(request, "app_crud/activity_form.html", {'form': form})
+    else:
+        if id == 0:
+            form = ActivtyForm(request.POST)
+        else:
+            activity = Activity.objects.get(pk=id)
+            form = ActivtyForm(request.POST, instance=activity)
+        if form.is_valid():
+            form.save()
+        return redirect('/activity_list')
+
+
 
 @login_required(login_url='/loginUser')
 @allowed_users(allowed_roles=['admin'])
@@ -87,6 +114,13 @@ def person_delete(request, id):
     person.delete()
     return redirect('/list')
 
+
+@allowed_users(allowed_roles=['employee'])
+def activity_delete(request, id):
+    activity = Activity.objects.get(pk=id)
+    activity.delete()
+    return redirect('/activity_list')
+
 def userPage(request):
     context = {}
-    return render(request, 'app_crud/user.html', context)
+    return render(request, 'app_crud/activity_list.html', context)

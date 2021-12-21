@@ -33,7 +33,7 @@ def admin_only(view_func):
             group=request.user.groups.all()[0].name
             
         if group == 'employee':
-             return redirect('userPage')
+             return redirect('activity_list')
         if group == 'admin':
             return view_func (request, *args, **kwargs)
     return wrapper_func

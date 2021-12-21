@@ -25,6 +25,38 @@
                 <p class="lead font-italic">Actividades Pendientes</p>
                 <hr class="my-4">
                 {% block content %}
+                <table class="table table-borderless">
+                    <thead class="border-bottom font-weight-bold">
+                        <tr>
+                            <td>Nombre Actividad</td>
+                            <td>Descripción</td>
+                            <td>
+                                <a href="{% url 'activity_insert' %}" class="btn btn-outline-success">
+                                    <i class="fas fa-plus"></i> Nueva Actividad
+                                </a>
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for activity in activity_list %}
+                        <tr>
+                            <td>{{activity.activity_name}}</td>
+                            <td>{{activity.description}}</td>                         
+                            <td>
+                                <a href="{% url 'activity_update' activity.id %}" class="btn text-secondary px-0">
+                                    <i class="far fa-edit"></i>
+                                </a>
+                                <form action="{% url 'activity_delete' activity.id %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn">
+                                        <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
                 {% endblock content %}
             </div>
         </div>

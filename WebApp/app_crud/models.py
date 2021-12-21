@@ -23,6 +23,6 @@ class Person(models.Model):
 class Activity(models.Model):
     activity_name = models.CharField(max_length=100)
     description=models.CharField(max_length=100)
-    urgency= models.CharField(max_length=20)
+    
    
     
