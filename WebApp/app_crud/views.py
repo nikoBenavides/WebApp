@@ -115,7 +115,7 @@ def person_delete(request, id):
     return redirect('/list')
 
 
-@allowed_users(allowed_roles=['employee'])
+
 def activity_delete(request, id):
     activity = Activity.objects.get(pk=id)
     activity.delete()

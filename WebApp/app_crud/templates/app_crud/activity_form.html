@@ -7,7 +7,13 @@
 <form action="" method="POST" autocomplete="off">
     {% csrf_token %}
     {{form.activity_name |as_crispy_field}}
-    {{form.description |as_crispy_field}}
+    {{form.activity_description |as_crispy_field}}
+    {{form.activity_date_created |as_crispy_field}}
+    {{form.activity_date_end |as_crispy_field}}
+    {{form.person |as_crispy_field}}
+    {{form.urgency |as_crispy_field}}
+
+
 
     </div>
     <div class="row">
@@ -16,7 +22,7 @@
                 Crear Actividad</button>
         </div>
         <div class="col-md-4">
-            <a href="{% url 'userPage' %}" class="btn btn-secondary btn-block btn-lg">
+            <a href="{% url 'activity_list' %}" class="btn btn-secondary btn-block btn-lg">
                 <i class="fas fa-list-ul"></i> Ver Actividades
             </a>
             
