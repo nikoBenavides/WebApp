@@ -1,7 +1,6 @@
 from django.shortcuts import redirect, render
-from .forms import ActivtyForm, PersonForm, CreateUserForm
+from .forms import ActivityForm, PersonForm, CreateUserForm
 from .models import Activity, Person
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import  Group
@@ -87,20 +86,24 @@ def person_form(request, id=0):
             form.save()
         return redirect('/list')
 
+
+@login_required(login_url='/loginUser')
+@allowed_users(allowed_roles=['employee','admin'])
+
 def activity_form(request, id=0):
     if request.method == "GET":
         if id == 0:
-            form = ActivtyForm()
+            form = ActivityForm()
         else:
             activity = Activity.objects.get(pk=id)
-            form = ActivtyForm(instance=activity)
+            form = ActivityForm(instance=activity)
         return render(request, "app_crud/activity_form.html", {'form': form})
     else:
         if id == 0:
-            form = ActivtyForm(request.POST)
+            form = ActivityForm(request.POST)
         else:
             activity = Activity.objects.get(pk=id)
-            form = ActivtyForm(request.POST, instance=activity)
+            form = ActivityForm(request.POST, instance=activity)
         if form.is_valid():
             form.save()
         return redirect('/activity_list')

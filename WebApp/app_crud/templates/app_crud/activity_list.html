@@ -29,7 +29,12 @@
                     <thead class="border-bottom font-weight-bold">
                         <tr>
                             <td>Nombre Actividad</td>
-                            <td>Descripción</td>
+                            <td>Descripción:</td>
+                            <td>Fecha Inicio:</td>
+                            <td>Fecha Fin:</td>
+                            <td>Horas</td>
+                            <td>Responsable</td>
+                            <td>Urgencia</td>
                             <td>
                                 <a href="{% url 'activity_insert' %}" class="btn btn-outline-success">
                                     <i class="fas fa-plus"></i> Nueva Actividad
@@ -41,7 +46,12 @@
                         {% for activity in activity_list %}
                         <tr>
                             <td>{{activity.activity_name}}</td>
-                            <td>{{activity.description}}</td>                         
+                            <td>{{activity.activity_description}}</td> 
+                            <td>{{activity.activity_date_created}}</td>                         
+                            <td>{{activity.activity_date_end}}</td>                         
+                            <td>{{activity.hours}}</td> 
+                            <td>{{activity.person}}</td>                         
+                            <td>{{activity.urgency}}</td>                         
                             <td>
                                 <a href="{% url 'activity_update' activity.id %}" class="btn text-secondary px-0">
                                     <i class="far fa-edit"></i>

@@ -24,7 +24,7 @@ class PersonForm(ModelForm):
         self.fields['position'].empty_label = 'Seleccione'
 
 
-class ActivtyForm(ModelForm):
+class ActivityForm(ModelForm):
     class Meta:
         model = Activity
         fields = ('activity_name', 'activity_description', 'activity_date_created','activity_date_end','person',
@@ -40,7 +40,7 @@ class ActivtyForm(ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
-        super(ActivtyForm, self).__init__(*args, **kwargs)
+        super(ActivityForm, self).__init__(*args, **kwargs)
         self.fields['urgency'].empty_label = 'Seleccione'
         self.fields['person'].empty_label = 'Seleccione'
 
