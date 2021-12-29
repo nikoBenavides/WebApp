@@ -10,14 +10,16 @@
     {{form.activity_description |as_crispy_field}}
     {{form.activity_date_created |as_crispy_field}}
     {{form.activity_date_end |as_crispy_field}}
+    {{form.hours |as_crispy_field}}
     {{form.person |as_crispy_field}}
     {{form.urgency |as_crispy_field}}
+
 
     </div>
     <div class="row">
         <div class="col-md-8">
             <button type="submit" class="btn btn-success btn-block btn-lg"><i class="fas fa-plus"></i>
-                Crear Actividad</button>
+                Añadir</button>
         </div>
         <div class="col-md-4">
             <a href="{% url 'activity_list' %}" class="btn btn-secondary btn-block btn-lg">

@@ -87,8 +87,7 @@ def person_form(request, id=0):
         return redirect('/list')
 
 
-@login_required(login_url='/loginUser')
-@allowed_users(allowed_roles=['employee','admin'])
+
 
 def activity_form(request, id=0):
     if request.method == "GET":
@@ -118,11 +117,13 @@ def person_delete(request, id):
     return redirect('/list')
 
 
-
+@login_required(login_url='/loginUser')
+@allowed_users(allowed_roles=['admin','employee'])
 def activity_delete(request, id):
-    activity = Activity.objects.get(pk=id)
-    activity.delete()
-    return redirect('/activity_list')
+    activity=Activity.objects.get(pk=id)
+    if request.method == "POST":
+        activity.delete()
+        return redirect('/activity_list')
 
 def userPage(request):
     context = {}

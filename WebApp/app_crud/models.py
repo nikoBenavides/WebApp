@@ -1,5 +1,6 @@
 from django.contrib.auth.forms import UsernameField
 from django.db import models
+from django.db.models.fields import BigIntegerField
 from django.db.models.manager import ManagerDescriptor
 from datetime import date
 

@@ -2,6 +2,7 @@
 from django.urls import path, include
 from .import views
 
+
 urlpatterns = [
     path('person/', views.person_form, name='person_insert'),                   #Insert info
     path('<int:id>/', views.person_form,name='person_update'),                  #Update info
@@ -13,8 +14,8 @@ urlpatterns = [
     path('', views.person_form, name='Home'),
     path('newactivity/',views.activity_form, name="activity_insert" ),
     path('activity_list/',views.activity_list, name='activity_list'),
-    path('<int:id>/', views.activity_form,name='activity_update'),               #Update info
-    path('delete/<int:id>/', views.activity_delete , name= 'activity_delete')   #Delete info
+    path('activity_update/<int:id>/', views.activity_form,name='activity_update'),               #Update info
+    path('activity_delete/<int:id>/', views.activity_delete , name= 'activity_delete')   #Delete info
              
 
 
