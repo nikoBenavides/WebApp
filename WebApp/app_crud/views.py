@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from .forms import ActivityForm, PersonForm, CreateUserForm
-from .models import Activity, Person
+from .models import Activity, Person, Status, Urgency
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import  Group
@@ -96,6 +96,7 @@ def activity_form(request, id=0):
         else:
             activity = Activity.objects.get(pk=id)
             form = ActivityForm(instance=activity)
+            
         return render(request, "app_crud/activity_form.html", {'form': form})
     else:
         if id == 0:
