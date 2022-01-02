@@ -15,8 +15,8 @@ from .decorators import unauthenticated_user, allowed_users, admin_only
 @login_required(login_url='/loginUser')
 @admin_only
 def person_list(request):  # GET
-    persons = Person.objects.all()
-    context = {'person_list': Activity.objects.all()}
+    people = Person.objects.all()
+    context = {'person_list': people}
 
     return render(request, "app_crud/person_list.html", context)
 
