@@ -11,12 +11,10 @@ from django.contrib.auth.models import User
 class PersonForm(ModelForm):
     class Meta:
         model = Person
-        fields = ('name', 'lastname', 'idCode', 'phone', 'position')
+        fields = ('name', 'lastname','position')
         labels = {
             'name': 'Nombre',
             'lastname': 'Apellido',
-            'idCode': 'Codigo Personal',
-            'phone': 'Teléfono Celular',
             'position': 'Posición'
         }
     def __init__(self, *args, **kwargs):
@@ -37,7 +35,8 @@ class ActivityForm(ModelForm):
             'hours':'Horas estimadas:',
             'status':'Estado',
             'person':'Empleado asigando:',
-            'urgency': 'Urgencia:'            
+            'urgency': 'Urgencia:'
+                      
         }
 
     def __init__(self, *args, **kwargs):

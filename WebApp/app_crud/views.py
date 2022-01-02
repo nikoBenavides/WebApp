@@ -15,8 +15,9 @@ from .decorators import unauthenticated_user, allowed_users, admin_only
 @login_required(login_url='/loginUser')
 @admin_only
 def person_list(request):  # GET
-    
-    context = {'person_list': Person.objects.all()}
+    persons = Person.objects.all()
+    context = {'person_list': Activity.objects.all()}
+
     return render(request, "app_crud/person_list.html", context)
 
 def activity_list(request):  # GET
@@ -95,7 +96,8 @@ def activity_form(request, id=0):
             form = ActivityForm()
         else:
             activity = Activity.objects.get(pk=id)
-            form = ActivityForm(instance=activity)
+            updatedActivity = update_progression(activity)
+            form = ActivityForm(instance=updatedActivity)
             
         return render(request, "app_crud/activity_form.html", {'form': form})
     else:
@@ -103,19 +105,57 @@ def activity_form(request, id=0):
             form = ActivityForm(request.POST)
         else:
             activity = Activity.objects.get(pk=id)
-            form = ActivityForm(request.POST, instance=activity)
+            updatedActivity = update_progression(activity)
+            form = ActivityForm(request.POST, instance=updatedActivity)
+            
         if form.is_valid():
             form.save()
         return redirect('/activity_list')
 
+def update_progression(activity):
+    status = Status.objects.all()   
+    urgencies = Urgency.objects.all()
+    print(urgencies[2].points_urg)
+    for stat in status:
+        print(stat.status)
+        print(activity.status)
+        print(str(stat.status) == str(activity.status))
+        if (str(stat.status) == str(activity.status)):
+            print("Status points:")
+            print(stat.points_sts)
+            activity.points = int(stat.points_sts)    
+    for urgency in urgencies:
+        if(str(urgency.urgency) == str(activity.urgency)):
+            activity.points += int(urgency.points_urg) 
 
+    print(activity.points)
+    return activity
 
 @login_required(login_url='/loginUser')
 @allowed_users(allowed_roles=['admin'])
-def person_delete(request, id):
+
+def person_delete(id):
     person = Person.objects.get(pk=id)
     person.delete()
     return redirect('/list')
+
+# def Bono_list(name):
+#     persona = Person.objects.get(name=Person.objects.get(name=name))
+#     allActivities={}
+#     for activity in persona.activity_set.all():
+#         if activity.person in allActivities:
+#             allActivities[activity.person] += 1
+#         else:
+#             allActivities[activity.person] = 1
+#     print(allActivities)
+
+#     activitiesPerson = persona.activity_set.all() 
+
+#     total_points = 0
+
+
+#     for activity in activitiesPerson:
+#         total_points += activity.points
 
 
 @login_required(login_url='/loginUser')
@@ -127,5 +167,6 @@ def activity_delete(request, id):
         return redirect('/activity_list')
 
 def userPage(request):
-    context = {}
-    return render(request, 'app_crud/activity_list.html', context)
+       
+     context={}
+     return render(request, 'app_crud/activity_list.html', context)

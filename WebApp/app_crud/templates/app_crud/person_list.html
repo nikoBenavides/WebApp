@@ -29,8 +29,6 @@
                         <tr>
                             <td>Nombre</td>
                             <td>Apellido</td>
-                            <td>Teléfono</td>
-                            <td>Código Personal</td>
                             <td>Posición</td>
                             <td>
                                 <a href="{% url 'person_insert' %}" class="btn btn-outline-success">
@@ -44,8 +42,6 @@
                         <tr>
                             <td>{{person.name}}</td>
                             <td>{{person.lastname}}</td>
-                            <td>{{person.phone}}</td>
-                            <td>{{person.idCode}}</td>
                             <td>{{person.position}}</td>
                             <td>
                                 <a href="{% url 'person_update' person.id %}" class="btn text-secondary px-0">

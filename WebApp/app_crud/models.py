@@ -16,60 +16,29 @@ class Position (models.Model):
 
 class Status (models.Model):
     status=models.CharField(max_length=100)
-    points=models.CharField(max_length=50)
-    if status == 'To Do':
-        points = 0
-    else:
-        if status == 'In Progress':
-            points = 0.5
-        else:
-            if status == 'Blocked':
-                points = 0.5
-            else:
-                if status == 'Testing':
-                    points = 2
-                else:
-                    if status == 'Blocked':
-                        points = 1.5
-                    else:
-                        points = 3
-        
-
+    points_sts=models.CharField(max_length=50)
     def __str__(self):
         return self.status
 
-
-
-        
 class Urgency (models.Model):
-    points=models.CharField(max_length=50)
+    points_urg=models.CharField(max_length=50)
     urgency=models.CharField(max_length=50)
-    
-    if urgency == 'Baja':
-        points = 1
-    else:
-        if urgency == 'Media':
-            points = 2
-        else:
-            points =3
 
     def __str__(self):
         return self.urgency
-    
-    
-            
-    
-
-
+ 
 class Person(models.Model):
     name = models.CharField(max_length=100)
     lastname=models.CharField(max_length=100)
-    idCode= models.CharField(max_length=5)
-    phone= models.CharField(max_length=10)
     position = models.ForeignKey(Position, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.name
+
+persons = Person.objects.all()
+print(persons)
 
 def SumPoints( sum ):
-    sum =  Status.__getpoints__ + Urgency.__getpoints__
+    sum =  Status.__getattribute__('points_sts') + Urgency.__getattribute__('points_urg')
     return sum
 
 class Activity(models.Model):
@@ -82,7 +51,8 @@ class Activity(models.Model):
     status=models.ForeignKey(Status, null=True, on_delete=models.SET_NULL)
     person=models.ForeignKey(Person, null=True, on_delete=models.SET_NULL)
     urgency=models.ForeignKey(Urgency, null=True,on_delete=models.SET_NULL)
-    points=models.FloatField(sum, null=True)
+    points=models.FloatField(default=0)
+    
     
     
                         
