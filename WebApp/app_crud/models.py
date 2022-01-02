@@ -31,11 +31,13 @@ class Person(models.Model):
     name = models.CharField(max_length=100)
     lastname=models.CharField(max_length=100)
     position = models.ForeignKey(Position, on_delete=models.CASCADE)
+    person_points = models.IntegerField(default=0)
+    person_bonus = models.BooleanField(default=False)    
     def __str__(self):
         return self.name
 
-persons = Person.objects.all()
-print(persons)
+# persons = Person.objects.all()
+# print(persons)
 
 def SumPoints( sum ):
     sum =  Status.__getattribute__('points_sts') + Urgency.__getattribute__('points_urg')

@@ -15,16 +15,20 @@ from .decorators import unauthenticated_user, allowed_users, admin_only
 @login_required(login_url='/loginUser')
 @admin_only
 def person_list(request):  # GET
-    people = Person.objects.all()
-    context = {'person_list': people}
+
+    context = {'person_list':Person.objects.all()}
 
     return render(request, "app_crud/person_list.html", context)
 
 def activity_list(request):  # GET
-
+    
     context = {'activity_list': Activity.objects.all()}
     return render(request, "app_crud/activity_list.html", context)
 
+def bono_list(request):  # GET
+    context = {'person_list':Person.objects.all()}
+
+    return render(request, "app_crud/bono_list.html", context)
 
 
 @unauthenticated_user

@@ -23,8 +23,11 @@
             <li class="nav-item2">
                 <a class="nav-link" href="{% url 'person_list' %}">Lista de Empleados</a>
             </li>
-            {% endif %}   
             <li class="nav-item3">
+              <a class="nav-link" href="{% url 'bono_list' %}">Bonos</a>
+            </li>   
+            {% endif %}   
+            <li class="nav-item4">
               <a class="nav-link" href="{% url 'activity_list' %}">Mis Actividades</a>
             </li>        
         </ul>
