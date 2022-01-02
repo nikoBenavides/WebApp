@@ -26,10 +26,50 @@ def activity_list(request):  # GET
     return render(request, "app_crud/activity_list.html", context)
 
 def bono_list(request):  # GET
-    context = {'person_list':Person.objects.all()}
+    people = Person.objects.all()
+    mapped_people = obtener_bonos(people)
+    context = {'person_list': mapped_people }
 
     return render(request, "app_crud/bono_list.html", context)
 
+def obtener_bonos(people):
+    for person in people:
+        total_activity_points = 0
+        activities = Activity.objects.all()
+        person_activities = []
+        for activity in activities:
+            if str(activity.person) == str(person.name):
+                person_activities.append(activity)
+        for activity in person_activities:
+            total_activity_points += int(activity.points)
+            print("Person: " + person.name + " Total Points: " + str(total_activity_points))
+        person.person_points = str(total_activity_points)
+
+    people_activities_value = []
+
+    for person in people:
+        person.person_activities = Bono_list(person.name)
+        if int(person.person_points) >= 15:
+            person.person_bonus = True
+        people_activities_value.append(Bono_list(person.name))
+        print(person.person_bonus)
+
+    return people
+
+def Bono_list(name):
+    persona = Person.objects.get(name=Person.objects.get(name=name))
+    allActivities={}
+    total_activities = 0
+    for activity in persona.activity_set.all():
+        if activity.person in allActivities:
+            allActivities[activity.person] += 1
+        else:
+            allActivities[activity.person] = 1
+        total_activities = allActivities[activity.person] 
+    return total_activities
+
+# Bono_list("Sebastian")
+# obtener_bonos(people)
 
 @unauthenticated_user
 def registerUser(request):
@@ -142,20 +182,6 @@ def person_delete(id):
     person = Person.objects.get(pk=id)
     person.delete()
     return redirect('/list')
-
-# def Bono_list(name):
-#     persona = Person.objects.get(name=Person.objects.get(name=name))
-#     allActivities={}
-#     for activity in persona.activity_set.all():
-#         if activity.person in allActivities:
-#             allActivities[activity.person] += 1
-#         else:
-#             allActivities[activity.person] = 1
-#     print(allActivities)
-
-#     activitiesPerson = persona.activity_set.all() 
-
-#     total_points = 0
 
 
 #     for activity in activitiesPerson:

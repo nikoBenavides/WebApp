@@ -38,7 +38,18 @@
                         {% for person in person_list %}
                         <tr>
                             <td>{{person.name}} {{person.lastname}}</td>
-                            
+                            <td>
+                               {{person.person_activities}}
+                            </td>
+                            <td>{{person.person_points}}</td>
+                            <td>
+                                {% if person.person_bonus == True %}
+                                    Apto para Bono
+                                {% else %}
+                                    No apto
+                                {% endif %}
+
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>

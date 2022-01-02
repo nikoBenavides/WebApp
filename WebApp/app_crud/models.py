@@ -32,7 +32,8 @@ class Person(models.Model):
     lastname=models.CharField(max_length=100)
     position = models.ForeignKey(Position, on_delete=models.CASCADE)
     person_points = models.IntegerField(default=0)
-    person_bonus = models.BooleanField(default=False)    
+    person_bonus = models.BooleanField(default=False)
+    person_activities=models.IntegerField(default=0)    
     def __str__(self):
         return self.name
 
