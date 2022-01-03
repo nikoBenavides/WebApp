@@ -7,6 +7,8 @@ from django.contrib.auth.models import  Group
 from django.contrib.auth.decorators import login_required
 from .decorators import unauthenticated_user, allowed_users, admin_only
 
+import time
+
 
 # Create your views here.
 # Controlers
@@ -134,16 +136,14 @@ def person_form(request, id=0):
         return redirect('/list')
 
 
-
-
-def activity_form(request, id=0):
+def activity_form (request, id=0):
     if request.method == "GET":
         if id == 0:
             form = ActivityForm()
         else:
             activity = Activity.objects.get(pk=id)
-            updatedActivity = update_progression(activity)
-            form = ActivityForm(instance=updatedActivity)
+            update_progression(activity)
+            form = ActivityForm(instance=activity)
             
         return render(request, "app_crud/activity_form.html", {'form': form})
     else:
@@ -151,25 +151,22 @@ def activity_form(request, id=0):
             form = ActivityForm(request.POST)
         else:
             activity = Activity.objects.get(pk=id)
-            updatedActivity = update_progression(activity)
-            form = ActivityForm(request.POST, instance=updatedActivity)
-            
+            form = ActivityForm(request.POST, instance=activity)
+            form.save()
+            update_progression(activity)
+            form = ActivityForm(request.POST, instance=activity)
         if form.is_valid():
             form.save()
+
         return redirect('/activity_list')
 
 def update_progression(activity):
     categories= Category.objects.all()
     status = Status.objects.all()   
     urgencies = Urgency.objects.all()
-    print(urgencies[2].points_urg)
-    for stat in status:
-        print(stat.status)
-        print(activity.status)
-        print(str(stat.status) == str(activity.status))
+    activity.points = 0 
+    for stat in status:   
         if (str(stat.status) == str(activity.status)):
-            print("Status points:")
-            print(stat.points_sts)
             activity.points = int(stat.points_sts)    
     for urgency in urgencies:
         if(str(urgency.urgency) == str(activity.urgency)):
@@ -177,7 +174,6 @@ def update_progression(activity):
     for category in categories:
         if(str(category.category_name) == str(activity.category)):
             activity.points += int(category.category_points)
-    print(activity.points)
     return activity
 
 @login_required(login_url='/loginUser')
