@@ -16,6 +16,7 @@ from .decorators import unauthenticated_user, allowed_users, admin_only
 @admin_only
 def person_list(request):  # GET
 
+
     context = {'person_list':Person.objects.all()}
 
     return render(request, "app_crud/person_list.html", context)
@@ -24,6 +25,7 @@ def activity_list(request):  # GET
     
     context = {'activity_list': Activity.objects.all()}
     return render(request, "app_crud/activity_list.html", context)
+
 
 def bono_list(request):  # GET
     people = Person.objects.all()
@@ -182,10 +184,6 @@ def person_delete(id):
     person = Person.objects.get(pk=id)
     person.delete()
     return redirect('/list')
-
-
-#     for activity in activitiesPerson:
-#         total_points += activity.points
 
 
 @login_required(login_url='/loginUser')

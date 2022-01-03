@@ -22,6 +22,8 @@
         <div class="col-md-10 offset-md-1 mt-5">
             <div class="jumbotron">
                 <h1 class="display-4">Bonos Empleados</h1>
+                <p class="lead font-italic">Recuerde que el Bono será determinado por la empresa al momento de realizar el pago.</p>
+
                 <hr class="my-4">
                 {% block content %}
                 <table class="table table-borderless">
@@ -48,7 +50,6 @@
                                 {% else %}
                                     No apto
                                 {% endif %}
-
                             </td>
                         </tr>
                         {% endfor %}

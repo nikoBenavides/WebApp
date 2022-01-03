@@ -1,7 +1,5 @@
-from django.contrib.auth.forms import UsernameField
+
 from django.db import models
-from django.db.models.fields import BigIntegerField
-from django.db.models.manager import ManagerDescriptor
 from datetime import date
 
 
@@ -37,8 +35,6 @@ class Person(models.Model):
     def __str__(self):
         return self.name
 
-# persons = Person.objects.all()
-# print(persons)
 
 def SumPoints( sum ):
     sum =  Status.__getattribute__('points_sts') + Urgency.__getattribute__('points_urg')
@@ -56,7 +52,14 @@ class Activity(models.Model):
     urgency=models.ForeignKey(Urgency, null=True,on_delete=models.SET_NULL)
     points=models.FloatField(default=0)
     
-    
+
+class Category(models.Model):
+
+    category_name=models.CharField(max_length=100)
+    category_points=models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.category_name
     
                         
 
