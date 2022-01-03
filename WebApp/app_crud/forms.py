@@ -26,7 +26,7 @@ class ActivityForm(ModelForm):
     class Meta:
         model = Activity
         fields = ('activity_name', 'activity_description', 'activity_date_created','activity_date_end','person',
-                    'urgency', 'hours','status')
+                    'urgency', 'hours','status','category')
         labels = {
             'activity_name': 'Nombre Actividad',
             'activity_description': 'Descripción',
@@ -35,7 +35,8 @@ class ActivityForm(ModelForm):
             'hours':'Horas estimadas:',
             'status':'Estado',
             'person':'Empleado asigando:',
-            'urgency': 'Urgencia:'
+            'urgency': 'Urgencia:',
+            'category': 'Categoria:'
                       
         }
 
@@ -44,6 +45,7 @@ class ActivityForm(ModelForm):
         self.fields['urgency'].empty_label = 'Seleccione'
         self.fields['person'].empty_label = 'Seleccione'
         self.fields['status'].empty_label = 'Seleccione'
+        self.fields['category'].empty_label='Seleccione'
 
 
 class CreateUserForm(UserCreationForm):

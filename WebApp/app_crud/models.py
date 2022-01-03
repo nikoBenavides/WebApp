@@ -40,6 +40,14 @@ def SumPoints( sum ):
     sum =  Status.__getattribute__('points_sts') + Urgency.__getattribute__('points_urg')
     return sum
 
+class Category(models.Model):
+
+    category_name=models.CharField(max_length=100)
+    category_points=models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.category_name
+        
 class Activity(models.Model):
 
     activity_name = models.CharField(max_length=500, null=True)
@@ -50,16 +58,11 @@ class Activity(models.Model):
     status=models.ForeignKey(Status, null=True, on_delete=models.SET_NULL)
     person=models.ForeignKey(Person, null=True, on_delete=models.SET_NULL)
     urgency=models.ForeignKey(Urgency, null=True,on_delete=models.SET_NULL)
+    category=models.ForeignKey(Category, null=True,on_delete=models.SET_NULL)
     points=models.FloatField(default=0)
     
 
-class Category(models.Model):
 
-    category_name=models.CharField(max_length=100)
-    category_points=models.IntegerField(default=0)
-
-    def __str__(self):
-        return self.category_name
     
                         
 

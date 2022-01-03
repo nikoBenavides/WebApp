@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from .forms import ActivityForm, PersonForm, CreateUserForm
-from .models import Activity, Person, Status, Urgency
+from .models import Activity, Person, Status, Urgency, Category
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import  Group
@@ -159,6 +159,7 @@ def activity_form(request, id=0):
         return redirect('/activity_list')
 
 def update_progression(activity):
+    categories= Category.objects.all()
     status = Status.objects.all()   
     urgencies = Urgency.objects.all()
     print(urgencies[2].points_urg)
@@ -173,7 +174,9 @@ def update_progression(activity):
     for urgency in urgencies:
         if(str(urgency.urgency) == str(activity.urgency)):
             activity.points += int(urgency.points_urg) 
-
+    for category in categories:
+        if(str(category.category_name) == str(activity.category)):
+            activity.points += int(category.category_points)
     print(activity.points)
     return activity
 
