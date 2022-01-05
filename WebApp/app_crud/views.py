@@ -18,19 +18,33 @@ import time
 @admin_only
 def person_list(request):  # GET
 
-
-    context = {'person_list':Person.objects.all()}
+    people=Person.objects.order_by('name')
+    context = {'person_list':people}
 
     return render(request, "app_crud/person_list.html", context)
 
 def activity_list(request):  # GET
-    
+
     context = {'activity_list': Activity.objects.all()}
+    
     return render(request, "app_crud/activity_list.html", context)
 
 
+def filter_list(request):
+    activity = Activity.objects.all()
+    filtered_activities = filter(activity)
+    context={'filtered_activities':filtered_activities}
+    return render(request, "app_crud/filter_list.html", context)
+
+
+def filter ():
+    filter=Activity.objects.filter(activity_date_created__range = ["2022-01-01", "2022-01-01"], activity_date_end__range=["2022-01-05", "2022-01-14"], urgency=(1))
+    return(filter)
+
+
+
 def bono_list(request):  # GET
-    people = Person.objects.all()
+    people = Person.objects.order_by('name')
     mapped_people = obtener_bonos(people)
     context = {'person_list': mapped_people }
 
@@ -53,7 +67,7 @@ def obtener_bonos(people):
 
     for person in people:
         person.person_activities = Bono_list(person.name)
-        if int(person.person_points) >= 15:
+        if int(person.person_points) >= 35:
             person.person_bonus = True
         people_activities_value.append(Bono_list(person.name))
         print(person.person_bonus)
@@ -176,6 +190,9 @@ def update_progression(activity):
             activity.points += int(category.category_points)
     return activity
 
+
+    
+
 @login_required(login_url='/loginUser')
 @allowed_users(allowed_roles=['admin'])
 
@@ -197,3 +214,4 @@ def userPage(request):
        
      context={}
      return render(request, 'app_crud/activity_list.html', context)
+

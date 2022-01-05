@@ -24,12 +24,15 @@
                 <a class="nav-link" href="{% url 'person_list' %}">Lista de Empleados</a>
             </li>
             <li class="nav-item3">
-              <a class="nav-link" href="{% url 'bono_list' %}">Clasificacion Bonos Empleados</a>
-            </li>    
-            {% endif %}  
-            <li class="nav-item4">
               <a class="nav-link" href="{% url 'activity_list' %}">Lista Actividades Empleados</a>
-            </li>        
+            </li>
+            <li class="nav-item4">
+              <a class="nav-link" href="{% url 'bono_list' %}">Clasificación Bonos </a>
+            </li>   
+            <li class="nav-item5">
+              <a class="nav-link" href="{% url 'filter_list' %}">Filtrado </a>
+            </li>     
+          {% endif %}                    
         </ul>
     </div>
 
