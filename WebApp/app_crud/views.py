@@ -31,8 +31,7 @@ def activity_list(request):  # GET
 
 
 def filter_list(request):
-    activity = Activity.objects.all()
-    filtered_activities = filter(activity)
+    filtered_activities = filter()
     context={'filtered_activities':filtered_activities}
     return render(request, "app_crud/filter_list.html", context)
 
